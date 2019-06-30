@@ -54,9 +54,12 @@ def display_dealer_total(dealer_total)
   puts "The dealer's cards add up to #{dealer_total}"
 end
 
-def dealer_initial_round
+#dealer has to hit until they hit 17 or more
+def dealer_round
   dealer_total = deal_card + deal_card
-  display_dealer_total(dealer_total)
+  until dealer_total >= 17 
+    dealer_total += deal_card
+  end
   return dealer_total
 end
 
@@ -64,6 +67,7 @@ end
 # get every test to pass before coding runner below #
 #####################################################
 
+=begin
 def runner
   welcome 
   card_total = initial_round
@@ -73,4 +77,33 @@ def runner
   end
 end_game(card_total)
 end
+=end 
+
+#it'll stay loop forever asking you to h or s if you type s. need to figure out how to get it to move on if you type s
+
+def runner
+  input = nil
+  welcome 
+  card_total = initial_round
+  until card_total > 21 
+    card_total = hit?(card_total)
+    if input == "s"
+      break 
+    end
+    display_card_total(card_total)
     
+  end
+  if card_total > 21
+    end_game(card_total)
+  else
+    dealer_total = dealer_round
+    display_dealer_total(dealer_total)
+    if dealer_total > 21
+      puts "Dealer busted, you win!"
+    elsif dealer_total > card_total
+      puts "Dealer wins"
+    else
+      puts "Congrats, you beat the dealer!"
+    end
+  end
+end
